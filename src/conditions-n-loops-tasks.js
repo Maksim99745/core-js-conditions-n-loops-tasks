@@ -474,8 +474,41 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+  }
+
+  let count = 1;
+  let rowStart = 0;
+  let rowEnd = size - 1;
+  let columnStart = 0;
+  let columnEnd = size - 1;
+
+  while (rowStart <= rowEnd && columnStart <= columnEnd) {
+    for (let i = columnStart; i <= columnEnd; i += 1) {
+      matrix[rowStart][i] = count;
+      count += 1;
+    }
+    rowStart += 1;
+    for (let i = rowStart; i <= rowEnd; i += 1) {
+      matrix[i][columnEnd] = count;
+      count += 1;
+    }
+    columnEnd -= 1;
+    for (let i = columnEnd; i >= columnStart; i -= 1) {
+      matrix[rowEnd][i] = count;
+      count += 1;
+    }
+    rowEnd -= 1;
+    for (let i = rowEnd; i >= rowStart; i -= 1) {
+      matrix[i][columnStart] = count;
+      count += 1;
+    }
+    columnStart += 1;
+  }
+  return matrix;
 }
 
 /**
@@ -493,8 +526,23 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const newMatrix = [];
+  const resultMatrix = matrix;
+  for (let i = 0; i < matrix.length; i += 1) {
+    newMatrix[i] = [];
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      newMatrix[j][matrix.length - 1 - i] = matrix[i][j];
+    }
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[i].length; j += 1) {
+      resultMatrix[i][j] = newMatrix[i][j];
+    }
+  }
+  return resultMatrix;
 }
 
 /**
@@ -513,8 +561,21 @@ function rotateMatrix(/* matrix */) {
  */
 function sortByAsc(/* arr */) {
   throw new Error('Not implemented');
+  // if (arr.length <= 1) {
+  //   return arr;
+  // }
+  // const firstItem = arr[0];
+  // const left = [];
+  // const right = [];
+  // for (let i = 1; i < arr.length; i += 1) {
+  //   if (arr[i] < firstItem) {
+  //     left.push(arr[i]);
+  //   } else {
+  //     right.push(arr[i]);
+  //   }
+  // }
+  // return null;
 }
-
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
  * Take into account that the string can be very long and the number of iterations is large. Consider how you can optimize your solution.
