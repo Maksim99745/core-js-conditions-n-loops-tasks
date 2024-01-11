@@ -560,41 +560,44 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
-  // if (arr.length <= 1) {
-  //   return arr;
-  // }
-  // const firstItem = arr[0];
-  // const left = [];
-  // const right = [];
-  // let leftCount = 0;
-  // for (let i = 0; i < arr.length; i += 1) {
-  //   if (arr[i] < firstItem) {
-  //     left[leftCount] = arr[i];
-  //     leftCount += 1;
-  //   }
-  // }
-  // let rigthCount = 0;
-  // for (let i = 0; i < arr.length; i += 1) {
-  //   if (arr[i] > firstItem) {
-  //     right[rigthCount] = arr[i];
-  //     rigthCount += 1;
-  //   }
-  // }
-  // const newLeft = sortByAsc(left);
-  // const newRight = sortByAsc(right);
-  // const newArr = arr;
-  // newArr.length = 0;
-  // for (let i = 0; i < newLeft.length; i += 1) {
-  //   newArr[i] = newLeft[i];
-  // }
-  // newArr[newArr.length] = firstItem;
-  // for (let i = 0; i < newRight.length; i += 1) {
-  //   newArr[newArr.length] = newRight[i];
-  // }
-  // arr.splice(0, arr.length, ...newArr);
-  // return arr;
+function sortByAsc(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const firstItem = arr[0];
+  const left = [];
+  const right = [];
+
+  let leftCount = 0;
+  let rightCount = 0;
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < firstItem) {
+      left[leftCount] = arr[i];
+      leftCount += 1;
+    } else {
+      right[rightCount] = arr[i];
+      rightCount += 1;
+    }
+  }
+
+  const newLeft = sortByAsc(left);
+  const newRight = sortByAsc(right);
+
+  const newArr = arr;
+  newArr.length = 0;
+
+  for (let i = 0; i < newLeft.length; i += 1) {
+    newArr[i] = newLeft[i];
+  }
+
+  newArr[newArr.length] = firstItem;
+
+  for (let i = 0; i < newRight.length; i += 1) {
+    newArr[newArr.length] = newRight[i];
+  }
+
+  return newArr;
 }
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
@@ -675,8 +678,60 @@ function shuffleChar(string, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const numberArray = Array.from(String(number)).map(Number);
+  const numberString = Array.from(String(number)).map(Number);
+
+  const { length } = numberString;
+
+  let iterationsNumber = length - 2;
+
+  while (
+    iterationsNumber >= 0 &&
+    numberString[iterationsNumber] >= numberString[iterationsNumber + 1]
+  ) {
+    iterationsNumber -= 1;
+  }
+
+  if (iterationsNumber < 0) {
+    return number;
+  }
+
+  const firstSmallNumberToReplace = numberString[iterationsNumber];
+
+  let secondSmallNumberToReplace = 10;
+  let secondIndex = length - 1;
+
+  for (let i = length - 1; i > iterationsNumber; i -= 1) {
+    if (
+      numberString[i] > firstSmallNumberToReplace &&
+      numberString[i] < secondSmallNumberToReplace
+    ) {
+      secondSmallNumberToReplace = numberString[i];
+      secondIndex = i;
+    }
+  }
+
+  numberArray[iterationsNumber] = secondSmallNumberToReplace;
+  numberArray[secondIndex] = firstSmallNumberToReplace;
+
+  const arrayForSorting = numberArray.filter(
+    (_, index) => index > iterationsNumber
+  );
+
+  const sortedArray = arrayForSorting.sort((a, b) => a - b);
+
+  const result1 = [secondSmallNumberToReplace, ...sortedArray];
+
+  const resultSlicing1 = numberString.filter(
+    (_, index) => index < iterationsNumber
+  );
+
+  const finalArray = [...resultSlicing1, ...result1];
+
+  const result = finalArray.join('');
+
+  return Number(result);
 }
 
 module.exports = {
