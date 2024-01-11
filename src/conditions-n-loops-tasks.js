@@ -1,4 +1,5 @@
 /* *******************************************************************************************
+  
  *                                                                                           *
  * Please read the following tutorial before implementing tasks:                             *
  * https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code    *
@@ -567,14 +568,33 @@ function sortByAsc(/* arr */) {
   // const firstItem = arr[0];
   // const left = [];
   // const right = [];
-  // for (let i = 1; i < arr.length; i += 1) {
+  // let leftCount = 0;
+  // for (let i = 0; i < arr.length; i += 1) {
   //   if (arr[i] < firstItem) {
-  //     left.push(arr[i]);
-  //   } else {
-  //     right.push(arr[i]);
+  //     left[leftCount] = arr[i];
+  //     leftCount += 1;
   //   }
   // }
-  // return null;
+  // let rigthCount = 0;
+  // for (let i = 0; i < arr.length; i += 1) {
+  //   if (arr[i] > firstItem) {
+  //     right[rigthCount] = arr[i];
+  //     rigthCount += 1;
+  //   }
+  // }
+  // const newLeft = sortByAsc(left);
+  // const newRight = sortByAsc(right);
+  // const newArr = arr;
+  // newArr.length = 0;
+  // for (let i = 0; i < newLeft.length; i += 1) {
+  //   newArr[i] = newLeft[i];
+  // }
+  // newArr[newArr.length] = firstItem;
+  // for (let i = 0; i < newRight.length; i += 1) {
+  //   newArr[newArr.length] = newRight[i];
+  // }
+  // arr.splice(0, arr.length, ...newArr);
+  // return arr;
 }
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
@@ -593,8 +613,49 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(string, iterations) {
+  let newString = string;
+
+  let finalInteractions = 0;
+
+  for (let i = 0; i < iterations; i += 1) {
+    let startString = '';
+    let endString = '';
+
+    for (let j = 0; j < newString.length; j += 1) {
+      if (j % 2 === 0) {
+        startString += newString[j];
+      } else {
+        endString += newString[j];
+      }
+    }
+
+    newString = startString + endString;
+
+    if (newString === string) {
+      finalInteractions = i + 1;
+      break;
+    }
+  }
+
+  const getIterationsNumbers = iterations % finalInteractions;
+
+  for (let i = 0; i < getIterationsNumbers; i += 1) {
+    let startString = '';
+    let endString = '';
+
+    for (let j = 0; j < newString.length; j += 1) {
+      if (j % 2 === 0) {
+        startString += newString[j];
+      } else {
+        endString += newString[j];
+      }
+    }
+
+    newString = startString + endString;
+  }
+
+  return newString;
 }
 
 /**
